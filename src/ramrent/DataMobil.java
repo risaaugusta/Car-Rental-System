@@ -9,11 +9,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -27,6 +30,7 @@ public class DataMobil extends javax.swing.JFrame {
     public DataMobil() {
         initComponents();
         autoID();
+        table_update();
     }
 
     Connection con;
@@ -52,7 +56,7 @@ public class DataMobil extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable();
         txtstok = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -81,7 +85,7 @@ public class DataMobil extends javax.swing.JFrame {
 
         jButton4.setText("Kembali");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -97,7 +101,7 @@ public class DataMobil extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -228,6 +232,7 @@ public class DataMobil extends javax.swing.JFrame {
             txtstok.setSelectedIndex(-1);
             txtmerk.requestFocus();
             autoID();
+            table_update(); //ketika berhasil insert, tabel akan auto updated
             
            
         } catch (ClassNotFoundException ex) {
@@ -238,6 +243,44 @@ public class DataMobil extends javax.swing.JFrame {
             
     }//GEN-LAST:event_jButton1ActionPerformed
  
+    
+    public void table_update(){
+        int m;
+        
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+             con = DriverManager.getConnection("jdbc:mysql://localhost/cakrarental","root",""); //ambil db
+            pst = con.prepareStatement("select * from mobil");
+            ResultSet Rs = pst.executeQuery();//mengeksekusi query
+            
+            ResultSetMetaData rd = Rs.getMetaData();
+            m = rd.getColumnCount();
+            DefaultTableModel df = (DefaultTableModel)jTable1.getModel();
+            df.setRowCount(0);
+            
+            while(Rs.next()){
+                Vector v2 = new Vector();
+                
+                for(int i=1; i<=m; i++){
+                    v2.add(Rs.getString("kode_mobil"));
+                    v2.add(Rs.getString("merk"));
+                    v2.add(Rs.getString("tipe"));
+                    v2.add(Rs.getString("stok"));
+                }
+                
+                df.addRow(v2);
+            }
+             
+             
+             
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DataMobil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataMobil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           
+    }
+    
     //func auto generated kode mobil
     public void autoID(){
         try {
@@ -250,7 +293,7 @@ public class DataMobil extends javax.swing.JFrame {
             rs.getString("Max(kode_mobil)");
             
             if(rs.getString("Max(kode_mobil)")== null){
-                txtkode.setText("M001"); //default first kode 
+                txtkode.setText("M0001"); //default first kode 
             }else{
                 long id = Long.parseLong(rs.getString("Max(kode_mobil)").substring(2,rs.getString("Max(kode_mobil)").length()));
                 id++;
@@ -312,7 +355,7 @@ public class DataMobil extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtkode;
     private javax.swing.JTextField txtmerk;
     private javax.swing.JComboBox<String> txtstok;
