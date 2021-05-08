@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -45,7 +46,6 @@ public class DataMobil extends javax.swing.JFrame {
         txtkode = new javax.swing.JTextField();
         txtmerk = new javax.swing.JTextField();
         txttipe = new javax.swing.JTextField();
-        txtstok = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -53,6 +53,7 @@ public class DataMobil extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        txtstok = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,6 +69,11 @@ public class DataMobil extends javax.swing.JFrame {
         jLabel5.setText("Data Mobil");
 
         jButton1.setText("Tambah");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Ubah");
 
@@ -110,6 +116,8 @@ public class DataMobil extends javax.swing.JFrame {
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
+        txtstok.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tersedia", "Tidak Tersedia" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -127,12 +135,11 @@ public class DataMobil extends javax.swing.JFrame {
                                     .addComponent(jLabel1)
                                     .addGap(40, 40, 40))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtstok, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txttipe, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtkode, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                                .addComponent(txtmerk))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txttipe, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                            .addComponent(txtkode, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+                            .addComponent(txtmerk)
+                            .addComponent(txtstok, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
@@ -198,12 +205,44 @@ public class DataMobil extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String kode = txtkode.getText();
+        String merk = txtmerk.getText();
+        String tipe = txttipe.getText();
+        String stok = txtstok.getSelectedItem().toString();
+        
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/cakrarental","root",""); //ambil db
+            pst = con.prepareStatement("insert into mobil(kode_mobil,merk,tipe,stok) values(?,?,?,?)"); //tanda tanya menyatakan kolom
+            pst.setString(1, kode);
+            pst.setString(2, merk);
+            pst.setString(3, tipe);
+            pst.setString(4, stok);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(this,"Data mobil berhasil ditambahkan!");
+            
+            txtmerk.setText("");
+            txttipe.setText("");
+            txtstok.setSelectedIndex(-1);
+            txtmerk.requestFocus();
+            autoID();
+            
+           
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DataMobil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataMobil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+    }//GEN-LAST:event_jButton1ActionPerformed
  
     //func auto generated kode mobil
     public void autoID(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:8080/cakrarent","root",""); //ambil db
+            con = DriverManager.getConnection("jdbc:mysql://localhost/cakrarental","root",""); //ambil db
             Statement s = con.createStatement();
             
             ResultSet rs = s.executeQuery("select Max(kode_mobil) from mobil");
@@ -276,7 +315,7 @@ public class DataMobil extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField txtkode;
     private javax.swing.JTextField txtmerk;
-    private javax.swing.JTextField txtstok;
+    private javax.swing.JComboBox<String> txtstok;
     private javax.swing.JTextField txttipe;
     // End of variables declaration//GEN-END:variables
 }
