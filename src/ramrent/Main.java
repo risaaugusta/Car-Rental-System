@@ -60,6 +60,11 @@ public class Main extends javax.swing.JFrame {
         });
 
         jButton4.setText("Pengembalian");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Logout");
 
@@ -124,6 +129,11 @@ public class Main extends javax.swing.JFrame {
         Sewa sw = new Sewa();
         sw.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Pengembalian pg = new Pengembalian();
+        pg.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
