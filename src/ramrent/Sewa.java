@@ -5,11 +5,13 @@
  */
 package ramrent;
 
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -40,6 +42,9 @@ public class Sewa extends javax.swing.JFrame {
            private PreparedStatement pst;
            private ResultSet rs;
            private PreparedStatement pst1;
+           private PreparedStatement pst2;
+           private PreparedStatement pst3;
+           private PreparedStatement pst4;
     
     public void KategoriMobil(){
         try {
@@ -109,7 +114,18 @@ public class Sewa extends javax.swing.JFrame {
             }
         });
 
+        txtkodepelanggan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtkodepelangganKeyPressed(evt);
+            }
+        });
+
         jButton1.setText("OK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Kembali");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -254,6 +270,70 @@ public class Sewa extends javax.swing.JFrame {
         }
            
     }//GEN-LAST:event_txtkodemobilActionPerformed
+
+    private void txtkodepelangganKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtkodepelangganKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            String kode_pelanggan = txtkodepelanggan.getText();
+            
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                con = DriverManager.getConnection("jdbc:mysql://localhost/cakrarental","root",""); //ambil db
+                pst2 = con.prepareStatement("select * from pelanggan where kode_pelanggan=?");
+                pst2.setString(1,kode_pelanggan);
+                rs = pst2.executeQuery();
+               
+                if(rs.next() == false){
+                JOptionPane.showMessageDialog(this, "Kode pelanggan tidak ditemukan!");
+            }else{
+                String nama = rs.getString("nama");
+                txtnama.setText(nama.trim());
+                }
+                
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Sewa.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Sewa.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        }
+    }//GEN-LAST:event_txtkodepelangganKeyPressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String kode_mobil = txtkodemobil.getSelectedItem().toString();
+        String kode_pelanggan = txtkodepelanggan.getText();
+        String harga = txtharga.getText();
+         
+        SimpleDateFormat formatTanggal = new SimpleDateFormat("yyyy-MM-dd");
+        String pinjam = formatTanggal.format(txtpinjam.getDate());
+        
+        SimpleDateFormat formatTanggal2 = new SimpleDateFormat("yyyy-MM-dd");
+        String kembali = formatTanggal2.format(txtkembali.getDate());
+        
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/cakrarental","root",""); //ambil db
+            pst3 = con.prepareStatement("insert into peminjaman(id_mobil,kode_pelanggan,harga,tanggal_pinjam,tanggal_kembali) values(?,?,?,?,?)");
+            pst3.setString(1,kode_mobil);
+            pst3.setString(2,kode_pelanggan);
+            pst3.setString(3,harga);
+            pst3.setString(4,pinjam);
+            pst3.setString(5,kembali);
+            pst3.executeUpdate();
+            
+            pst4 = con.prepareStatement("update mobil set stok='Tidak tersedia' where kode_mobil=?");
+            pst4.setString(1,kode_mobil);
+            pst4.executeUpdate();
+            
+            JOptionPane.showMessageDialog(this,"Berhasil disewa!");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Sewa.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Sewa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
