@@ -66,15 +66,12 @@
                           </Group>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="txtkodepelanggan" pref="159" max="32767" attributes="0"/>
-                                  <Component id="txtnama" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="txtkodepelanggan" max="32767" attributes="0"/>
+                              <Component id="txtnama" max="32767" attributes="0"/>
                               <Component id="txttelp" alignment="0" max="32767" attributes="0"/>
-                              <Group type="102" alignment="1" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jButton4" min="-2" pref="85" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
