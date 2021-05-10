@@ -37,7 +37,7 @@ public class AbstractRental extends info{
 class Pembayaran extends AbstractRental{
     @Override
     public void denda(){
-        denda = hari*50000;
+        super.denda = super.hari*50000;
         System.out.println("Denda yang harus dibayar adalah "+denda);
     }
 }
