@@ -16,11 +16,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author RISA
- */
-public class Sewa extends javax.swing.JFrame {
+
+
+
+public class Sewa extends javax.swing.JFrame{
 
     /**
      * Creates new form Sewa
@@ -38,6 +37,7 @@ public class Sewa extends javax.swing.JFrame {
         txtkembali.setEnabled(false);
     }
    
+//enkapsulasi
            private Connection con;
            private PreparedStatement pst;
            private ResultSet rs;
@@ -46,7 +46,7 @@ public class Sewa extends javax.swing.JFrame {
            private PreparedStatement pst3;
            private PreparedStatement pst4;
     
-    public void KategoriMobil(){
+    public void KategoriMobil() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost/cakrarental","root",""); //ambil db
@@ -56,7 +56,6 @@ public class Sewa extends javax.swing.JFrame {
             
             while(rs.next()){
                 txtkodemobil.addItem(rs.getString(2)); //2 ini menyatakan indeks kolom kedua yaitu kode_mobil
-                
             }
             
         } catch (ClassNotFoundException ex) {
@@ -66,7 +65,10 @@ public class Sewa extends javax.swing.JFrame {
         }
             
     }
-            
+    
+    
+    
+        
             
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -268,7 +270,7 @@ public class Sewa extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Sewa.class.getName()).log(Level.SEVERE, null, ex);
         }
-           
+  
     }//GEN-LAST:event_txtkodemobilActionPerformed
 
     private void txtkodepelangganKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtkodepelangganKeyPressed
@@ -293,9 +295,7 @@ public class Sewa extends javax.swing.JFrame {
                 Logger.getLogger(Sewa.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
                 Logger.getLogger(Sewa.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            
+            }   
         }
     }//GEN-LAST:event_txtkodepelangganKeyPressed
 

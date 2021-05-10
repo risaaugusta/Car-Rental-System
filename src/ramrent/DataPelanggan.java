@@ -22,7 +22,8 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author RISA
  */
-public class DataPelanggan extends javax.swing.JFrame {
+//implements interface class
+public class DataPelanggan extends javax.swing.JFrame implements Rental {
 
     /**
      * Creates new form DataMobil
@@ -317,7 +318,6 @@ public class DataPelanggan extends javax.swing.JFrame {
                 df.addRow(v2);
             }
              
-            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DataPelanggan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

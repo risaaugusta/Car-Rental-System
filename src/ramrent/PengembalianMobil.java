@@ -214,7 +214,6 @@ public class PengembalianMobil extends javax.swing.JFrame {
                     v2.add(Rs.getString("jumlah_hari"));
                     v2.add(Rs.getString("denda"));
                 }
-                
                 df.addRow(v2);
             }
              
@@ -225,8 +224,7 @@ public class PengembalianMobil extends javax.swing.JFrame {
             Logger.getLogger(DataPelanggan.class.getName()).log(Level.SEVERE, null, ex);
         }
            
-    }
-    
+    }  
     
     private void txtkodemobilKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtkodemobilKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
