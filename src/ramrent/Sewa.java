@@ -17,8 +17,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 
-
-
 public class Sewa extends javax.swing.JFrame{
 
     /**
@@ -37,7 +35,7 @@ public class Sewa extends javax.swing.JFrame{
         txtkembali.setEnabled(false);
     }
    
-//enkapsulasi
+            //enkapsulasi
            private Connection con;
            private PreparedStatement pst;
            private ResultSet rs;
@@ -57,7 +55,6 @@ public class Sewa extends javax.swing.JFrame{
             while(rs.next()){
                 txtkodemobil.addItem(rs.getString(2)); //2 ini menyatakan indeks kolom kedua yaitu kode_mobil
             }
-            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Sewa.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -65,11 +62,7 @@ public class Sewa extends javax.swing.JFrame{
         }
             
     }
-    
-    
-    
-        
-            
+       
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -263,8 +256,7 @@ public class Sewa extends javax.swing.JFrame{
                     txtkembali.setEnabled(true);
                 }
             }
-            
-            
+          
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Sewa.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

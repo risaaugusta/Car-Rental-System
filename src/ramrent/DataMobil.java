@@ -80,6 +80,11 @@ public class DataMobil extends javax.swing.JFrame {
         });
 
         jButton2.setText("Ubah");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -114,6 +119,11 @@ public class DataMobil extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(jTable1);
@@ -259,36 +269,38 @@ public class DataMobil extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         int selectedIndex = jTable1.getSelectedRow();
             try {   
                 
-               String id = d1.getValueAt(selectedIndex, 0).toString();
-               String merk =txtmerk.getText();
-               String tipe =txttipe.getText();
-               String stok = txtstok.getSelectedItem().toString();
+            String id = model.getValueAt(selectedIndex, 0).toString();
+            String merk =txtmerk.getText();
+            String tipe =txttipe.getText();
+            String stok = txtstok.getSelectedItem().toString();
             
-           
-            
-             Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost/cakrarental","root",""); //ambil db
-            pst = con.prepareStatement("update mobil set stok=? where kode_mobil = ?");
+            pst = con.prepareStatement("update mobil set merk=?, tipe=?, stok=? where kode_mobil = ?");
             pst.setString(1,merk);
             pst.setString(2,tipe);
             pst.setString(3,stok);
             pst.setString(4,id);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(this, "Data mobil berhasil diubah!");
+          
+            jButton3.setEnabled(false);
+            jButton1.setEnabled(true);
             table_update();
-                   
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DataMobil.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(DataMobil.class.getName()).log(Level.SEVERE, null, ex);
-        }       
-     
+        }    
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         DefaultTableModel d1 = (DefaultTableModel) jTable1.getModel();
         int selectedIndex = jTable1.getSelectedRow();
@@ -320,6 +332,47 @@ public class DataMobil extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+       DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
+         int selectIndex = jTable1.getSelectedRow();
+         
+         txtkode.setText(d1.getValueAt(selectIndex, 0).toString());
+         txtmerk.setText(d1.getValueAt(selectIndex, 1).toString());
+         txttipe.setText(d1.getValueAt(selectIndex, 2).toString());
+         txtstok.setSelectedItem(d1.getValueAt(selectIndex, 3).toString());
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int selectedIndex = jTable1.getSelectedRow();
+            
+            String id = model.getValueAt(selectedIndex, 0).toString();
+            String merk =txtmerk.getText();
+            String tipe1 =txttipe.getText();
+            String stok = txtstok.getSelectedItem().toString();
+             
+            try
+            {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/cakrarental","root",""); //ambil db
+            pst = con.prepareStatement("update mobil set merk=?, tipe=?, stok=? where kode_mobil = ?");
+            pst.setString(1,merk);
+            pst.setString(2,tipe1);
+            pst.setString(3,stok);
+            pst.setString(4,id);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Data mobil berhasil diubah!");
+           
+            jButton3.setEnabled(false);
+            jButton1.setEnabled(true);
+
+             } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DataMobil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataMobil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2MouseClicked
  
     
     public void table_update(){

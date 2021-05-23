@@ -216,8 +216,7 @@ public class PengembalianMobil extends javax.swing.JFrame {
                 }
                 df.addRow(v2);
             }
-             
-            
+         
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DataPelanggan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

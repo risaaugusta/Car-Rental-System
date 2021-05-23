@@ -175,6 +175,12 @@ public class Main extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Main().setVisible(true);
+               // returns the current value of the system timer, in nanoseconds
+                System.out.print("Waktu eksekusinya adalah "+System.nanoTime()+"NanoSeconds");
+
+                // returns the current value of the system timer, in milliseconds
+                System.out.print("time in milliseconds = ");
+                System.out.println(System.currentTimeMillis());
             }
         });
     }

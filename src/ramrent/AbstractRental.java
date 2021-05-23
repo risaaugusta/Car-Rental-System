@@ -19,6 +19,7 @@ public class AbstractRental extends info{
     private String merk;
     protected int hari;
     protected int denda;
+    
     //    overloading
     public void KategoriMobil(int id_mobil){
         this.id_mobil = id_mobil;
